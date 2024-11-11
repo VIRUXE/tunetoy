@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.1"?>
+<plugin>
+   <extension-point id="options" name="Rom Options" schema="schema/options.exsd"/>
+
+   <extension
+         id="RomEditorApplication"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="net.sf.tunetoy.RomEditorApplication">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="Default Perspective"
+            class="net.sf.tunetoy.Perspective"
+            id="net.sf.tunetoy.perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="Rom table"
+            allowMultiple="true"
+            icon="icons/sample2.gif"
+            class="net.sf.tunetoy.SampleView"
+            id="net.sf.tunetoy.SampleView">
+      </view>
+      <view
+            name="Options"
+            allowMultiple="true"
+            icon="icons/sample2.gif"
+            class="net.sf.tunetoy.OptionsView"
+            id="net.sf.tunetoy.OptionsView">
+      </view>
+      <view
+            name="Navigation"
+            allowMultiple="false"
+            icon="icons/sample2.gif"
+            class="net.sf.tunetoy.NoncloseableView"
+            id="net.sf.tunetoy.NoncloseableView">
+      </view>
+      <view
+            allowMultiple="true"
+            class="net.sf.tunetoy.GraphView"
+            icon="icons/sample2.gif"
+            id="net.sf.tunetoy.GraphView"
+            name="Graph"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="net.sf.tunetoy.category"
+            description="Opens a Honda rom"
+            id="net.sf.tunetoy.open"
+            name="Open Rom">
+      </command>
+      <command
+            categoryId="net.sf.tunetoy.category"
+            description="Open a todo list dialog"
+            id="net.sf.tunetoy.todo"
+            name="Todo List Dialog">
+      </command>
+      <category
+            id="net.sf.tunetoy.category"
+            name="Category"/>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="net.sf.tunetoy.RomEditorApplication"
+            name="Tunetoy">
+         <property
+               name="aboutText"
+               value="%aboutText"/>
+         <property
+               name="windowImage"
+               value="icons/sample2.gif"/>
+         <property
+               name="aboutImage"
+               value="product_lg.gif"/>
+         <property
+               name="windowImages"
+               value="icons/sample2.gif"/>
+      </product>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="net.sf.tunetoy.open"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+O"/>
+      <key
+            commandId="org.eclipse.ui.file.exit"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="CTRL+X"/>
+   </extension>
+</plugin>

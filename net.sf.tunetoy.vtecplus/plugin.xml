@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.1"?>
+<plugin>
+   <extension
+         id="robin"
+         name="robin"
+         point="net.sf.tunetoy.options">
+      <option
+            class="net.sf.tunetoy.vtecplus.Option"
+            id="net.sf.tunetoy.vtecplus"
+            name="VtecPlus"/>
+   </extension>
+</plugin>

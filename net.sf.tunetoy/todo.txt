@@ -1,0 +1,5 @@
+- Support for P72 and other OBD1 ECU's / ROM's
+- Support for OBD0 / OBD2 
+- Integrated (dis)assembler
+- Polish / enhance the 3D graph view
+- Better ROM fingerprinting
