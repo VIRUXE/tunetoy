@@ -31,19 +31,21 @@ public class TodoListAction extends Action {
 	@Override
 	public void run() {
 		URL url = Platform.getBundle("net.sf.tunetoy").getEntry("/todo.txt"); //$NON-NLS-1$ //$NON-NLS-2$
+
 		try {
-			InputStream stream = (InputStream) url.getContent();
-			byte[] b = new byte[1024];
+			var stream = (InputStream) url.getContent();
+			var b = new byte[1024];
+
 			while (stream.read(b) == b.length) {
 				b = new byte[b.length * 2];
 				stream.close();
 				stream = (InputStream) url.getContent();
 			}
-			stream.close();
-			String s = new String(b);
-			MessageDialog.openInformation(this.window.getShell(), Messages
-					.getString("TodoListAction.TodoList"), s); //$NON-NLS-1$
 
+			stream.close();
+
+			var s = new String(b);
+			MessageDialog.openInformation(this.window.getShell(), Messages.getString("TodoListAction.TodoList"), s); //$NON-NLS-1$
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
 		}

@@ -17,141 +17,102 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.part.ViewPart;
 
-/**
- * 
- */
 public class GraphView extends ViewPart {
-
 	float angle = 0.0f;
-
 	public static final String ID = "net.sf.tunetoy.GraphView"; //$NON-NLS-1$
-
 	protected IRomMap romMap = null;
-
 	protected IRom currentRom = null;
 
 	class GraphPainter implements PaintListener {
 		GC gc = null;
 
 		final int[] pointZero = { 35, 95 };
-
 		final int[] pointMaxMap = { 5, 85 };
-
 		final int[] pointMaxRPM = { 95, 85 };
-
 		final int[] pointMaxMapMaxRPM = { 65, 75 };
-
 		final int graphHeightPerc = 35;
 
-		public GraphPainter(GC gc) {
-			this.gc = gc;
-		}
+		public GraphPainter(GC gc) { this.gc = gc; }
 
 		public float getMaxValue() {
 			float maxValue = 0;
+
 			for (int x = 0; x < GraphView.this.romMap.getMapScalars().length; x++)
 				for (int y = 0; y < GraphView.this.romMap.getRpmScalars().length; y++)
-					maxValue = Math.max(maxValue, GraphView.this.romMap
-							.getValue(x,y)
-							);
+					maxValue = Math.max(maxValue, GraphView.this.romMap.getValue(x,y));
+
 			return maxValue;
 		}
 
 		public void paintControl(PaintEvent e) {
-			if (e.count > 0)
-				return;
-			if (GraphView.this.currentRom == null)
-				return;
+			if (e.count > 0) return;
+			if (GraphView.this.currentRom == null) return;
 
 			// TODO CLEAN THIS MESS UP!
-			final float width = this.gc.getClipping().width;
+			final float width  = this.gc.getClipping().width;
 			final float height = this.gc.getClipping().height;
 
-			this.gc.setBackground(Display.getDefault().getSystemColor(
-					SWT.COLOR_WHITE));
-			this.gc.setForeground(Display.getDefault().getSystemColor(
-					SWT.COLOR_WHITE));
+			this.gc.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+			this.gc.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
 			this.gc.fillRectangle(0, 0, (int) width, (int) height);
-			this.gc.setForeground(Display.getDefault().getSystemColor(
-					SWT.COLOR_BLACK));
+			this.gc.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 
 			final int pointZeroX = (int) (this.pointZero[0] * width / 100.);
 			final int pointZeroY = (int) (this.pointZero[1] * height / 100.);
+			
 			final int pointMaxMapX = (int) (this.pointMaxMap[0] * width / 100.);
 			final int pointMaxMapY = (int) (this.pointMaxMap[1] * height / 100.);
 
 			final int pointMaxRPMX = (int) (this.pointMaxRPM[0] * width / 100.);
 			final int pointMaxRPMY = (int) (this.pointMaxRPM[1] * height / 100.);
 
-			final int pointMaxMapMaxRPMX = (int) (this.pointMaxMapMaxRPM[0]
-					* width / 100.);
-			final int pointMaxMapMaxRPMY = (int) (this.pointMaxMapMaxRPM[1]
-					* height / 100.);
+			final int pointMaxMapMaxRPMX = (int) (this.pointMaxMapMaxRPM[0]* width / 100.);
+			final int pointMaxMapMaxRPMY = (int) (this.pointMaxMapMaxRPM[1]* height / 100.);
 
 			final int graphHeight = (int) (this.graphHeightPerc * height / 100.);
 
 			// Base
-			this.gc
-					.drawLine(pointZeroX, pointZeroY, pointMaxMapX,
-							pointMaxMapY);
-			this.gc
-					.drawLine(pointZeroX, pointZeroY, pointMaxRPMX,
-							pointMaxRPMY);
+			this.gc.drawLine(pointZeroX, pointZeroY, pointMaxMapX, pointMaxMapY);
+			this.gc.drawLine(pointZeroX, pointZeroY, pointMaxRPMX, pointMaxRPMY);
 
-			this.gc.drawLine(pointMaxMapX, pointMaxMapY, pointMaxMapMaxRPMX,
-					pointMaxMapMaxRPMY);
-			this.gc.drawLine(pointMaxRPMX, pointMaxRPMY, pointMaxMapMaxRPMX,
-					pointMaxMapMaxRPMY);
+			this.gc.drawLine(pointMaxMapX, pointMaxMapY, pointMaxMapMaxRPMX, pointMaxMapMaxRPMY);
+			this.gc.drawLine(pointMaxRPMX, pointMaxRPMY, pointMaxMapMaxRPMX, pointMaxMapMaxRPMY);
 
 			// Center line
-			this.gc.drawLine(pointMaxMapMaxRPMX, pointMaxMapMaxRPMY
-					- graphHeight, pointMaxMapMaxRPMX, pointMaxMapMaxRPMY);
+			this.gc.drawLine(pointMaxMapMaxRPMX, pointMaxMapMaxRPMY - graphHeight, pointMaxMapMaxRPMX, pointMaxMapMaxRPMY);
 
 			// Left backplane (MAP)
-			this.gc.drawLine(pointMaxMapX, pointMaxMapY - graphHeight,
-					pointMaxMapMaxRPMX, pointMaxMapMaxRPMY - graphHeight);
-			this.gc.drawLine(pointMaxMapX, pointMaxMapY, pointMaxMapX,
-					pointMaxMapY - graphHeight);
+			this.gc.drawLine(pointMaxMapX, pointMaxMapY - graphHeight, pointMaxMapMaxRPMX, pointMaxMapMaxRPMY - graphHeight);
+			this.gc.drawLine(pointMaxMapX, pointMaxMapY, pointMaxMapX, pointMaxMapY - graphHeight);
 
 			// Right backplane (RPM)
-			this.gc.drawLine(pointMaxRPMX, pointMaxRPMY - graphHeight,
-					pointMaxMapMaxRPMX, pointMaxMapMaxRPMY - graphHeight);
-			this.gc.drawLine(pointMaxRPMX, pointMaxRPMY, pointMaxRPMX,
-					pointMaxRPMY - graphHeight);
+			this.gc.drawLine(pointMaxRPMX, pointMaxRPMY - graphHeight, pointMaxMapMaxRPMX, pointMaxMapMaxRPMY - graphHeight);
+			this.gc.drawLine(pointMaxRPMX, pointMaxRPMY, pointMaxRPMX, pointMaxRPMY - graphHeight);
 
-			final float mapIncrementalX = (pointMaxMapX - pointZeroX)
-					/ (float) GraphView.this.romMap.getMapScalars().length;
-			final float mapIncrementalY = (pointMaxMapY - pointZeroY)
-					/ (float) GraphView.this.romMap.getMapScalars().length;
+			final float mapIncrementalX = (pointMaxMapX - pointZeroX) / (float) GraphView.this.romMap.getMapScalars().length;
+			final float mapIncrementalY = (pointMaxMapY - pointZeroY) / (float) GraphView.this.romMap.getMapScalars().length;
 
-			final float rpmIncrementalX = (pointMaxRPMX - pointZeroX)
-					/ (float) GraphView.this.romMap.getRpmScalars().length;
-			final float rpmIncrementalY = (pointMaxRPMY - pointZeroY)
-					/ (float) GraphView.this.romMap.getRpmScalars().length;
+			final float rpmIncrementalX = (pointMaxRPMX - pointZeroX) / (float) GraphView.this.romMap.getRpmScalars().length;
+			final float rpmIncrementalY = (pointMaxRPMY - pointZeroY) / (float) GraphView.this.romMap.getRpmScalars().length;
 
-			int[][][] coordinates = new int[GraphView.this.romMap
-					.getMapScalars().length][GraphView.this.romMap
-					.getRpmScalars().length][3];
+			int[][][] coordinates = new int[GraphView.this.romMap.getMapScalars().length][GraphView.this.romMap.getRpmScalars().length][3];
 
 			for (int map = 0; map < GraphView.this.romMap.getMapScalars().length; map++)
 				for (int rpm = 0; rpm < GraphView.this.romMap.getRpmScalars().length; rpm++) {
-					float x = map * mapIncrementalX + rpm * rpmIncrementalX
-							+ pointZeroX;
-					float y = map * mapIncrementalY + rpm * rpmIncrementalY
-							+ pointZeroY;
+					float x = map * mapIncrementalX + rpm * rpmIncrementalX + pointZeroX;
+					float y = map * mapIncrementalY + rpm * rpmIncrementalY + pointZeroY;
+
 					coordinates[map][rpm][0] = (int) x;
-					int dif = (int) ((graphHeight * (GraphView.this.romMap
-							.getValue(map, rpm)
-							 / this.getMaxValue())));
+
+					var dif = (int) ((graphHeight * (GraphView.this.romMap.getValue(map, rpm) / this.getMaxValue())));
 					coordinates[map][rpm][1] = (int) (y - dif);
-					coordinates[map][rpm][2] = (int) (255 * GraphView.this.romMap
-							.getValue(map, rpm)
-							 / this.getMaxValue()); // for color
+					coordinates[map][rpm][2] = (int) (255 * GraphView.this.romMap.getValue(map, rpm) / this.getMaxValue()); // for color
 				}
 
 			for (int x = 0; x < coordinates.length - 1; x++)
 				for (int y = 0; y < coordinates[x].length - 1; y++) {
-					int[] coords = new int[8];
+					var coords = new int[8];
+
 					coords[0] = coordinates[x][y][0];
 					coords[1] = coordinates[x][y][1];
 					coords[2] = coordinates[x + 1][y][0];
@@ -171,21 +132,13 @@ public class GraphView extends ViewPart {
 					col.dispose();
 					this.gc.fillPolygon(coords);
 
-					this.gc.setBackground(Display.getDefault().getSystemColor(
-							SWT.COLOR_WHITE));
-					this.gc.setForeground(Display.getDefault().getSystemColor(
-							SWT.COLOR_BLACK));
+					this.gc.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WHITE));
+					this.gc.setForeground(Display.getDefault().getSystemColor(SWT.COLOR_BLACK));
 					this.gc.drawPolyline(coords);
 				}
 		}
-
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
-	 */
 	@Override
 	public void createPartControl(Composite parent) {
 		// TODO clean up... we shouldn't be loading roms here...
@@ -203,16 +156,4 @@ public class GraphView extends ViewPart {
 		this.currentRom = rom;
 		this.romMap = rom.getMap(viewType);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
-	 */
-	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

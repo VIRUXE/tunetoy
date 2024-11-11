@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.sf.tunetoy;
 
 import java.net.URL;
@@ -20,7 +17,6 @@ import org.eclipse.ui.IWorkbenchWindow;
  * @author RobinP
  */
 public class OpenRomAction extends Action {
-
 	private final IWorkbenchWindow window;
 
 	public OpenRomAction(IWorkbenchWindow window, String label) {
@@ -31,8 +27,7 @@ public class OpenRomAction extends Action {
 		// Associate the action with a pre-defined command, to allow key
 		// bindings.
 		setActionDefinitionId(ICommandIds.CMD_OPEN);
-		URL imageURL = Platform.getBundle("net.sf.tunetoy").getEntry( //$NON-NLS-1$
-				"/icons/sample2.gif"); //$NON-NLS-1$
+		URL imageURL = Platform.getBundle("net.sf.tunetoy").getEntry("/icons/sample2.gif");
 		ImageDescriptor desc = ImageDescriptor.createFromURL(imageURL);
 		setImageDescriptor(desc);
 	}
@@ -41,25 +36,21 @@ public class OpenRomAction extends Action {
 	public void run() {
 		FileDialog f = new FileDialog(this.window.getShell(), SWT.OPEN);
 		f.setFilterExtensions(new String[] { "*.bin" }); //$NON-NLS-1$
-		f.setFilterNames(new String[] { Messages
-				.getString("OpenRomAction.HondaBinFiles") }); //$NON-NLS-1$
-		String filename = f.open();
-		if (filename != null) {
-			try {
-				RomFactory.loadRom(filename);
-			} catch (InvalidRomException e) {
-				MessageDialog
-						.openError(
-								this.window.getShell(),
-								Messages.getString("OpenRomAction.Error"), Messages.getString("OpenRomAction.ErrorOpeningRom")); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			for (int i = 0; i < this.window.getPages().length; i++) {
-				NoncloseableView view = (NoncloseableView) this.window
-						.getPages()[i].findView(NoncloseableView.ID);
-				if (view != null)
-					view.refresh();
-			}
+		f.setFilterNames(new String[] { Messages.getString("OpenRomAction.HondaBinFiles") }); //$NON-NLS-1$
 
+		String fileHandle = f.open();
+
+		if (fileHandle != null) {
+			try {
+				RomFactory.loadRom(fileHandle);
+			} catch (InvalidRomException e) {
+				MessageDialog.openError(this.window.getShell(), Messages.getString("OpenRomAction.Error"), Messages.getString("OpenRomAction.ErrorOpeningRom")); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			
+			for (int i = 0; i < this.window.getPages().length; i++) {
+				NoncloseableView view = (NoncloseableView) this.window.getPages()[i].findView(NoncloseableView.ID);
+				if (view != null) view.refresh();
+			}
 		}
 	}
 }

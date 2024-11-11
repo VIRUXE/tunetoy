@@ -12,7 +12,6 @@ import org.osgi.framework.BundleContext;
 public class RomEditorPlugin extends AbstractUIPlugin {
 	// The shared instance.
 	private static RomEditorPlugin plugin;
-
 	// Resource bundle.
 	private ResourceBundle resourceBundle;
 
@@ -28,9 +27,7 @@ public class RomEditorPlugin extends AbstractUIPlugin {
 	 * This method is called upon plug-in activation
 	 */
 	@Override
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
+	public void start(BundleContext context) throws Exception { super.start(context); }
 
 	/**
 	 * This method is called when the plug-in is stopped
@@ -45,17 +42,15 @@ public class RomEditorPlugin extends AbstractUIPlugin {
 	/**
 	 * Returns the shared instance.
 	 */
-	public static RomEditorPlugin getDefault() {
-		return plugin;
-	}
+	public static RomEditorPlugin getDefault() { return plugin; }
 
 	/**
 	 * Returns the string from the plugin's resource bundle, or 'key' if not
 	 * found.
 	 */
 	public static String getResourceString(String key) {
-		ResourceBundle bundle = RomEditorPlugin.getDefault()
-				.getResourceBundle();
+		var bundle = RomEditorPlugin.getDefault().getResourceBundle();
+
 		try {
 			return (bundle != null) ? bundle.getString(key) : key;
 		} catch (MissingResourceException e) {
@@ -68,12 +63,11 @@ public class RomEditorPlugin extends AbstractUIPlugin {
 	 */
 	public ResourceBundle getResourceBundle() {
 		try {
-			if (this.resourceBundle == null)
-				this.resourceBundle = ResourceBundle
-						.getBundle("net.sf.tunetoy.RomEditorPluginResources"); //$NON-NLS-1$
+			if (this.resourceBundle == null) this.resourceBundle = ResourceBundle.getBundle("net.sf.tunetoy.RomEditorPluginResources"); //$NON-NLS-1$
 		} catch (MissingResourceException x) {
 			this.resourceBundle = null;
 		}
+		
 		return this.resourceBundle;
 	}
 }

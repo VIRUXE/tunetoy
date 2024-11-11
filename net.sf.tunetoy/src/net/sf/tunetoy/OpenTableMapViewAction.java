@@ -12,20 +12,15 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 
 public class OpenTableMapViewAction extends OpenMapViewAction {
-
 	private final IWorkbenchWindow window;
-
 	private IRom rom;
-
 	private String viewtype;
 
-	public OpenTableMapViewAction(IWorkbenchWindow window, IRom rom,
-			String viewType) {
+	public OpenTableMapViewAction(IWorkbenchWindow window, IRom rom, String viewType) {
 		this.window = window;
 		this.rom = rom;
 		this.viewtype = viewType;
-		URL imageURL = Platform.getBundle("net.sf.tunetoy").getEntry( //$NON-NLS-1$
-				"/icons/sample2.gif"); //$NON-NLS-1$
+		URL imageURL = Platform.getBundle("net.sf.tunetoy").getEntry("/icons/sample2.gif");
 		ImageDescriptor desc = ImageDescriptor.createFromURL(imageURL);
 		setImageDescriptor(desc);
 	}
@@ -34,20 +29,10 @@ public class OpenTableMapViewAction extends OpenMapViewAction {
 	public void run() {
 		if (this.window != null) {
 			try {
-				SampleView view = (SampleView) this.window.getActivePage()
-						.showView(
-								SampleView.ID,
-								Messages.getString(this.viewtype)
-										+ " - " + this.rom.getName(), //$NON-NLS-1$
-								IWorkbenchPage.VIEW_ACTIVATE);
+				SampleView view = (SampleView) this.window.getActivePage().showView(SampleView.ID, Messages.getString(this.viewtype)+ " - " + this.rom.getName(), IWorkbenchPage.VIEW_ACTIVATE);
 				view.setRom(this.rom, this.viewtype);
 			} catch (PartInitException e) {
-				MessageDialog
-						.openError(
-								this.window.getShell(),
-								Messages.getString("OpenMapViewAction.Error"), //$NON-NLS-1$
-								Messages
-										.getString("OpenMapViewAction.ErrorOpeningView") + e.getMessage()); //$NON-NLS-1$
+				MessageDialog.openError(this.window.getShell(), Messages.getString("OpenMapViewAction.Error"), Messages.getString("OpenMapViewAction.ErrorOpeningView") + e.getMessage());
 			}
 		}
 
@@ -58,8 +43,5 @@ public class OpenTableMapViewAction extends OpenMapViewAction {
 	}
 
 	@Override
-	public String getName() {
-		return Messages.getString(this.viewtype + ".table"); //$NON-NLS-1$
-	}
-
+	public String getName() { return Messages.getString(this.viewtype + ".table"); }
 }

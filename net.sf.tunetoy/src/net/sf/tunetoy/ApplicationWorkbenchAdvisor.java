@@ -10,21 +10,14 @@ import org.eclipse.ui.application.WorkbenchWindowAdvisor;
  * perspective id for the initial window.
  */
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
-
 	private static final String PERSPECTIVE_ID = "net.sf.tunetoy.perspective"; //$NON-NLS-1$
 
 	@Override
-	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(
-			IWorkbenchWindowConfigurer configurer) {
-		MessageDialog.openInformation(configurer.getWindow().getShell(),
-				"Tunetoy", //$NON-NLS-1$
-				Messages.getString("ApplicationWorkbenchAdvisor.Disclaimer")); //$NON-NLS-1$
+	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
+		MessageDialog.openInformation(configurer.getWindow().getShell(), "Tunetoy", Messages.getString("ApplicationWorkbenchAdvisor.Disclaimer")); 
 		return new ApplicationWorkbenchWindowAdvisor(configurer);
 	}
 
 	@Override
-	public String getInitialWindowPerspectiveId() {
-		return PERSPECTIVE_ID;
-	}
-
+	public String getInitialWindowPerspectiveId() { return PERSPECTIVE_ID; }
 }

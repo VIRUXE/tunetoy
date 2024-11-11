@@ -24,9 +24,7 @@ import org.eclipse.ui.part.ViewPart;
  */
 public class OptionsView extends ViewPart {
 	public static final String ID = "net.sf.tunetoy.OptionsView"; //$NON-NLS-1$
-
 	protected IRom currentRom = null;
-
 	private Composite parent;
 
 	/*
@@ -35,9 +33,7 @@ public class OptionsView extends ViewPart {
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
-	public void createPartControl(Composite parentComp) {
-		this.parent = parentComp;
-	}
+	public void createPartControl(Composite parentComp) { this.parent = parentComp; }
 
 	/*
 	 * (non-Javadoc)
@@ -51,22 +47,22 @@ public class OptionsView extends ViewPart {
 
 	public void setRom(IRom rom) {
 		this.currentRom = rom;
-		Composite composite = new Composite(this.parent, SWT.NONE); 
+		
+		var composite = new Composite(this.parent, SWT.NONE); 
 		composite.setLayout(new FillLayout());
 		
-		TabFolder tabfolder = new TabFolder(composite, SWT.NONE);
+		var tabfolder = new TabFolder(composite, SWT.NONE);
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
-		IExtensionPoint extensionPoint = registry
-				.getExtensionPoint("net.sf.tunetoy.options"); //$NON-NLS-1$
+		IExtensionPoint extensionPoint = registry.getExtensionPoint("net.sf.tunetoy.options"); //$NON-NLS-1$
 
 		IExtension[] extensions = extensionPoint.getExtensions();
+
 		// For each extension ...
-		for (IExtension extension : extensions)
-			for (IConfigurationElement element : extension
-					.getConfigurationElements())
-			{
+		for (var extension : extensions)
+			for (IConfigurationElement element : extension.getConfigurationElements()) {
 				try {
-					RomOption option = (RomOption)element.createExecutableExtension("class"); //$NON-NLS-1$
+					var option = (RomOption)element.createExecutableExtension("class"); //$NON-NLS-1$
+
 					option.setRom(this.currentRom);
 					TabItem item = new TabItem(tabfolder, SWT.NONE);
 					item.setText(element.getAttribute("name")); //$NON-NLS-1$
@@ -99,5 +95,4 @@ public class OptionsView extends ViewPart {
 
 		this.parent.pack();
 	}
-
 }

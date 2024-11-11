@@ -8,8 +8,6 @@ package net.sf.tunetoy;
  * @see org.eclipse.jface.action.IAction#setActionDefinitionId(String)
  */
 public interface ICommandIds {
-
 	public static final String CMD_OPEN = "net.sf.tunetoy.open"; //$NON-NLS-1$
-
 	public static final String CMD_TODO_LIST = "net.sf.tunetoy.todo"; //$NON-NLS-1$
 }

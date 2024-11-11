@@ -22,22 +22,16 @@ import org.eclipse.ui.application.IActionBarConfigurer;
  * new actions.
  */
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
-
 	// Actions - important to allocate these only in makeActions, and then use
 	// them
 	// in the fill methods. This ensures that the actions aren't recreated
 	// when fillActionBars is called with FILL_PROXY.
 	private IWorkbenchAction exitAction;
-
 	private IWorkbenchAction aboutAction;
-
 	private OpenRomAction openRomAction;
-
 	private TodoListAction todoListAction;
 
-	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
-		super(configurer);
-	}
+	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) { super(configurer); }
 
 	@Override
 	protected void makeActions(final IWorkbenchWindow window) {
@@ -54,22 +48,17 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		this.aboutAction = ActionFactory.ABOUT.create(window);
 		register(this.aboutAction);
 
-		this.openRomAction = new OpenRomAction(window, Messages
-				.getString("ApplicationActionBarAdvisor.OpenHondaRom")); //$NON-NLS-1$
-
+		this.openRomAction = new OpenRomAction(window, Messages .getString("ApplicationActionBarAdvisor.OpenHondaRom")); 
 		register(this.openRomAction);
 
-		this.todoListAction = new TodoListAction(Messages
-				.getString("ApplicationActionBarAdvisor.TodoList"), window); //$NON-NLS-1$
+		this.todoListAction = new TodoListAction(Messages .getString("ApplicationActionBarAdvisor.TodoList"), window);
 		register(this.todoListAction);
 	}
 
 	@Override
 	protected void fillMenuBar(IMenuManager menuBar) {
-		MenuManager fileMenu = new MenuManager("&File", //$NON-NLS-1$
-				IWorkbenchActionConstants.M_FILE);
-		MenuManager helpMenu = new MenuManager("&Help", //$NON-NLS-1$
-				IWorkbenchActionConstants.M_HELP);
+		MenuManager fileMenu = new MenuManager("&File", IWorkbenchActionConstants.M_FILE);
+		MenuManager helpMenu = new MenuManager("&Help", IWorkbenchActionConstants.M_HELP);
 
 		menuBar.add(fileMenu);
 		// Add a group marker indicating where action set menus will appear.

@@ -18,20 +18,15 @@ import org.eclipse.ui.PartInitException;
  * @author
  */
 public class OpenRomOptionsAction extends OpenMapViewAction {
-
 	private final IWorkbenchWindow window;
-
 	private IRom rom;
-
 	private String viewtype;
 
-	public OpenRomOptionsAction(IWorkbenchWindow window, IRom rom,
-			String viewType) {
+	public OpenRomOptionsAction(IWorkbenchWindow window, IRom rom, String viewType) {
 		this.window = window;
 		this.rom = rom;
 		this.viewtype = viewType;
-		URL imageURL = Platform.getBundle("net.sf.tunetoy").getEntry( //$NON-NLS-1$
-				"/icons/sample2.gif"); //$NON-NLS-1$
+		URL imageURL = Platform.getBundle("net.sf.tunetoy").getEntry("/icons/sample2.gif");
 		ImageDescriptor desc = ImageDescriptor.createFromURL(imageURL);
 		setImageDescriptor(desc);
 	}
@@ -40,20 +35,10 @@ public class OpenRomOptionsAction extends OpenMapViewAction {
 	public void run() {
 		if (this.window != null) {
 			try {
-				OptionsView view = (OptionsView) this.window.getActivePage()
-						.showView(
-								OptionsView.ID,
-								Messages.getString(this.viewtype)
-										+ " - " + this.rom.getName(), //$NON-NLS-1$
-								IWorkbenchPage.VIEW_ACTIVATE);
+				OptionsView view = (OptionsView) this.window.getActivePage().showView(OptionsView.ID,Messages.getString(this.viewtype) + " - " + this.rom.getName(), IWorkbenchPage.VIEW_ACTIVATE);
 				view.setRom(this.rom);
 			} catch (PartInitException e) {
-				MessageDialog
-						.openError(
-								this.window.getShell(),
-								Messages.getString("OpenMapViewAction.Error"), //$NON-NLS-1$
-								Messages
-										.getString("OpenMapViewAction.ErrorOpeningView") + e.getMessage()); //$NON-NLS-1$
+				MessageDialog.openError(this.window.getShell(), Messages.getString("OpenMapViewAction.Error"), Messages.getString("OpenMapViewAction.ErrorOpeningView") + e.getMessage());
 			}
 		}
 
@@ -65,9 +50,7 @@ public class OpenRomOptionsAction extends OpenMapViewAction {
 	 * @see net.sf.tunetoy.OpenMapViewAction#getName()
 	 */
 	@Override
-	public String getName() {
-		return Messages.getString(this.viewtype); 
-	}
+	public String getName() { return Messages.getString(this.viewtype); }
 
 	/*
 	 * (non-Javadoc)
@@ -76,7 +59,5 @@ public class OpenRomOptionsAction extends OpenMapViewAction {
 	 */
 	public void dispose() {
 		// TODO Auto-generated method stub
-
 	}
-
 }

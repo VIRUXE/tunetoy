@@ -1,6 +1,3 @@
-/**
- * 
- */
 package net.sf.tunetoy.model;
 
 /**
@@ -13,11 +10,8 @@ public interface IRom {
 	 */
 	public class RomTypes {
 		public static final String P30 = "P30-203"; //$NON-NLS-1$
-
 		public static final String P28 = "P28-304"; //$NON-NLS-1$
-
 		public static final String P13 = "P13"; //$NON-NLS-1$
-
 		public static final String P04 = "P04"; //$NON-NLS-1$
 	}
 
@@ -45,7 +39,6 @@ public interface IRom {
 	 */
 	public IRomMap getMap(String tableType);
 
-	
 	public Integer readUnsignedByteAt(Integer address);
 	public void writeArray(Integer address, Integer[] bytes);
 	public void writeByte(int address, Integer ibyte);

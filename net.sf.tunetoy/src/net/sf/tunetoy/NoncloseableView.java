@@ -28,35 +28,23 @@ public class NoncloseableView extends ViewPart {
 
 		private TreeParent parent;
 
-		public TreeObject(OpenMapViewAction action) {
-			this.mAction = action;
-		}
+		public TreeObject(OpenMapViewAction action) { this.mAction = action; }
 
-		public OpenMapViewAction getAction() {
-			return this.mAction;
-		}
+		public OpenMapViewAction getAction() { return this.mAction; }
 
 		public Object getAdapter(Class key) {
 			key = null; // FIXME: Hack to supress warning
 			return key;
 		}
 
-		public String getName() {
-			return this.mAction.getName();
-		}
+		public String getName() { return this.mAction.getName(); }
 
-		public TreeParent getParent() {
-			return this.parent;
-		}
+		public TreeParent getParent() { return this.parent; }
 
-		public void setParent(TreeParent parent) {
-			this.parent = parent;
-		}
+		public void setParent(TreeParent parent) { this.parent = parent; }
 
 		@Override
-		public String toString() {
-			return getName();
-		}
+		public String toString() { return getName(); }
 	}
 
 	class TreeParent extends TreeObject {
@@ -75,18 +63,12 @@ public class NoncloseableView extends ViewPart {
 			child.setParent(this);
 		}
 
-		public TreeObject[] getChildren() {
-			return this.children.toArray(new TreeObject[this.children.size()]);
-		}
+		public TreeObject[] getChildren() { return this.children.toArray(new TreeObject[this.children.size()]); }
 
 		@Override
-		public String getName() {
-			return this.rom.getName();
-		}
+		public String getName() { return this.rom.getName(); }
 
-		public boolean hasChildren() {
-			return this.children.size() > 0;
-		}
+		public boolean hasChildren() { return this.children.size() > 0; }
 
 		public void removeChild(TreeObject child) {
 			this.children.remove(child);
@@ -94,8 +76,7 @@ public class NoncloseableView extends ViewPart {
 		}
 	}
 
-	class ViewContentProvider implements IStructuredContentProvider,
-			ITreeContentProvider {
+	class ViewContentProvider implements IStructuredContentProvider, ITreeContentProvider {
 		private TreeParent invisibleRoot;
 
 		public void dispose() {
@@ -103,9 +84,7 @@ public class NoncloseableView extends ViewPart {
 		}
 
 		public Object[] getChildren(Object parent) {
-			if (parent instanceof TreeParent) {
-				return ((TreeParent) parent).getChildren();
-			}
+			if (parent instanceof TreeParent) return ((TreeParent) parent).getChildren();
 			return new Object[0];
 		}
 
@@ -114,19 +93,17 @@ public class NoncloseableView extends ViewPart {
 				this.initialize();
 				return getChildren(this.invisibleRoot);
 			}
+
 			return getChildren(parent);
 		}
 
 		public Object getParent(Object child) {
-			if (child instanceof TreeObject) {
-				return ((TreeObject) child).getParent();
-			}
+			if (child instanceof TreeObject) return ((TreeObject) child).getParent();
 			return null;
 		}
 
 		public boolean hasChildren(Object parent) {
-			if (parent instanceof TreeParent)
-				return ((TreeParent) parent).hasChildren();
+			if (parent instanceof TreeParent) return ((TreeParent) parent).hasChildren();
 			return false;
 		}
 
@@ -144,69 +121,44 @@ public class NoncloseableView extends ViewPart {
 				TreeParent parent = new TreeParent(rom);
 
 				// Table map for non-vtec fuel map
-				parent.addChild(new TreeObject(new OpenTableMapViewAction(
-						getSite().getWorkbenchWindow(), rom,
-						TableType.FUEL_NO_VTEC)));
+				parent.addChild(new TreeObject(new OpenTableMapViewAction(getSite().getWorkbenchWindow(), rom, TableType.FUEL_NO_VTEC)));
 				// Graph map for non-vtec fuel map
-				parent.addChild(new TreeObject(new OpenGraphMapViewAction(
-						getSite().getWorkbenchWindow(), rom,
-						TableType.FUEL_NO_VTEC)));
+				parent.addChild(new TreeObject(new OpenGraphMapViewAction(getSite().getWorkbenchWindow(), rom, TableType.FUEL_NO_VTEC)));
 
 				if (rom.getCapabilities().hasVtec().booleanValue()) {
 					// Table map for vtec fuel map
-					parent.addChild(new TreeObject(new OpenTableMapViewAction(
-							getSite().getWorkbenchWindow(), rom,
-							TableType.FUEL_VTEC)));
+					parent.addChild(new TreeObject(new OpenTableMapViewAction(getSite().getWorkbenchWindow(), rom, TableType.FUEL_VTEC)));
 					// Graph map for vtec fuel map
-					parent.addChild(new TreeObject(new OpenGraphMapViewAction(
-							getSite().getWorkbenchWindow(), rom,
-							TableType.FUEL_VTEC)));
+					parent.addChild(new TreeObject(new OpenGraphMapViewAction(getSite().getWorkbenchWindow(), rom, TableType.FUEL_VTEC)));
 				}
+
 				// Table map for non-vtec ignition map
-				parent.addChild(new TreeObject(new OpenTableMapViewAction(
-						getSite().getWorkbenchWindow(), rom,
-						TableType.IGNITION_NO_VTEC)));
+				parent.addChild(new TreeObject(new OpenTableMapViewAction(getSite().getWorkbenchWindow(), rom, TableType.IGNITION_NO_VTEC)));
 				// Graph map for non-vtec ignition map
-				parent.addChild(new TreeObject(new OpenGraphMapViewAction(
-						getSite().getWorkbenchWindow(), rom,
-						TableType.IGNITION_NO_VTEC)));
+				parent.addChild(new TreeObject(new OpenGraphMapViewAction(getSite().getWorkbenchWindow(), rom, TableType.IGNITION_NO_VTEC)));
 
 				if (rom.getCapabilities().hasVtec().booleanValue()) {
 					// Table map for vtec igniion map
-					parent.addChild(new TreeObject(new OpenTableMapViewAction(
-							getSite().getWorkbenchWindow(), rom,
-							TableType.IGNITION_VTEC)));
+					parent.addChild(new TreeObject(new OpenTableMapViewAction(getSite().getWorkbenchWindow(), rom, TableType.IGNITION_VTEC)));
 					// Graph map for vtec igniion map
-					parent.addChild(new TreeObject(new OpenGraphMapViewAction(
-							getSite().getWorkbenchWindow(), rom,
-							TableType.IGNITION_VTEC)));
-
+					parent.addChild(new TreeObject(new OpenGraphMapViewAction(getSite().getWorkbenchWindow(), rom, TableType.IGNITION_VTEC)));
 				}
+
 				// Table map for non-vtec lambda map
-				parent.addChild(new TreeObject(new OpenTableMapViewAction(
-						getSite().getWorkbenchWindow(), rom,
-						TableType.LAMBDA_NO_VTEC)));
+				parent.addChild(new TreeObject(new OpenTableMapViewAction(getSite().getWorkbenchWindow(), rom, TableType.LAMBDA_NO_VTEC)));
 				// Graph map for non-vtec lambda map
-				parent.addChild(new TreeObject(new OpenGraphMapViewAction(
-						getSite().getWorkbenchWindow(), rom,
-						TableType.LAMBDA_NO_VTEC)));
+				parent.addChild(new TreeObject(new OpenGraphMapViewAction(getSite().getWorkbenchWindow(), rom, TableType.LAMBDA_NO_VTEC)));
 
 				if (rom.getCapabilities().hasVtec().booleanValue()) {
 					// Table map for non-vtec lambda map
-					parent.addChild(new TreeObject(new OpenTableMapViewAction(
-							getSite().getWorkbenchWindow(), rom,
-							TableType.LAMBDA_VTEC)));
+					parent.addChild(new TreeObject(new OpenTableMapViewAction(getSite().getWorkbenchWindow(), rom, TableType.LAMBDA_VTEC)));
 					// Graph map for non-vtec lambda map
-					parent.addChild(new TreeObject(new OpenGraphMapViewAction(
-							getSite().getWorkbenchWindow(), rom,
-							TableType.LAMBDA_VTEC)));
+					parent.addChild(new TreeObject(new OpenGraphMapViewAction(getSite().getWorkbenchWindow(), rom, TableType.LAMBDA_VTEC)));
 				}
 
 				// Rom options
-				parent
-						.addChild(new TreeObject(new OpenRomOptionsAction(
-								getSite().getWorkbenchWindow(), rom,
-								TableType.OPTIONS)));
+				parent.addChild(new TreeObject(new OpenRomOptionsAction(getSite().getWorkbenchWindow(), rom, TableType.OPTIONS)));
+
 				this.invisibleRoot.addChild(parent);
 			}
 
@@ -218,16 +170,14 @@ public class NoncloseableView extends ViewPart {
 		@Override
 		public Image getImage(Object obj) {
 			String imageKey = ISharedImages.IMG_OBJ_ELEMENT;
-			if (obj instanceof TreeParent)
-				imageKey = ISharedImages.IMG_OBJ_FOLDER;
-			return PlatformUI.getWorkbench().getSharedImages().getImage(
-					imageKey);
+
+			if (obj instanceof TreeParent) imageKey = ISharedImages.IMG_OBJ_FOLDER;
+
+			return PlatformUI.getWorkbench().getSharedImages().getImage(imageKey);
 		}
 
 		@Override
-		public String getText(Object obj) {
-			return obj.toString();
-		}
+		public String getText(Object obj) { return obj.toString(); }
 	}
 
 	public static final String ID = "net.sf.tunetoy.NoncloseableView"; //$NON-NLS-1$
@@ -242,35 +192,27 @@ public class NoncloseableView extends ViewPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		this.viewer = new TreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.BORDER);
-		this.viewer
-				.setContentProvider(this.contentprovider = new ViewContentProvider());
+		this.viewer = new TreeViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		this.viewer.setContentProvider(this.contentprovider = new ViewContentProvider());
 		this.viewer.setLabelProvider(new ViewLabelProvider());
 		this.viewer.setInput(getViewSite());
 		this.viewer.addDoubleClickListener(new IDoubleClickListener() {
-
 			public void doubleClick(DoubleClickEvent event) {
 				// TODO Auto-generated method stub
-				TreeObject to = ((TreeObject) ((StructuredSelection) event
-						.getViewer().getSelection()).getFirstElement());
+				TreeObject to = ((TreeObject) ((StructuredSelection) event.getViewer().getSelection()).getFirstElement());
 
-				if (to.getClass() == TreeObject.class)
-					to.getAction().run();
+				if (to.getClass() == TreeObject.class) to.getAction().run();
 			}
 		});
+
 		this.refresh();
 	}
 
-	public void refresh() {
-		this.viewer.refresh();
-	}
+	public void refresh() { this.viewer.refresh(); }
 
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
 	@Override
-	public void setFocus() {
-		this.viewer.getControl().setFocus();
-	}
+	public void setFocus() { this.viewer.getControl().setFocus(); }
 }
