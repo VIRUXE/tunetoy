@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-Name: Eclipse Rom Editor
+Bundle-SymbolicName: net.sf.tunetoy; singleton=true
+Bundle-Version: 0.0.1
+Bundle-ClassPath: romedit.jar
+Bundle-Activator: net.sf.tunetoy.RomEditorPlugin
+Bundle-Vendor: net.sf.tunetoy
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Eclipse-AutoStart: true
+Provide-Package: net.sf.tunetoy,
+ net.sf.tunetoy.model
